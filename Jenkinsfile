@@ -52,11 +52,13 @@ pipeline {
     }
     post {
        failure {
+           echo 'failure email'
              emailext body: '''${SCRIPT, template="groovy-html.template"}''', 
                       subject: "${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - Failed", 
                       mimeType: 'text/html',to: "devops.anilgupta@gmail.com"
       }
       success {
+          echo 'success email'
             emailext body: '''${SCRIPT, template="groovy-html.template"}''', 
                      subject: "${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - Successful", 
                      mimeType: 'text/html',to: "devops.anilgupta@gmail.com"
