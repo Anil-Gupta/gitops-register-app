@@ -7,28 +7,35 @@ pipeline {
     stages {
         stage("Cleanup Workspace") {
             steps {
+                echo 'Starting workspace...'
                 cleanWs()
+                echo 'End workspace...'
             }
         }
 
         stage("Checkout from SCM") {
                steps {
+                   echo 'Checkout from SCM...'
                    git branch: 'main', credentialsId: 'github', url: 'https://github.com/Anil-Gupta/gitops-register-app'
+                   echo 'End from SCM...'
                }
         }
 
         stage("Update the Deployment Tags") {
             steps {
+                echo 'Started Updating Deployment Tags...'
                 sh """
                    cat deployment.yaml
                    sed -i 's/${APP_NAME}.*/${APP_NAME}:${IMAGE_TAG}/g' deployment.yaml
                    cat deployment.yaml
                 """
+                echo 'Ending Updating Deployment Tags...'
             }
         }
 
         stage("Push the changed deployment file to Git") {
             steps {
+                echo 'Starting pushing change deployment file to git...'
                 sh """
                    git config --global user.name "Anil-Gupta"
                    git config --global user.email "anilgupta.bcs@gmail.com"
@@ -37,6 +44,7 @@ pipeline {
                 """
                 withCredentials([gitUsernamePassword(credentialsId: 'github', gitToolName: 'Default')]) {
                   sh "git push https://github.com/Anil-Gupta/gitops-register-app main"
+                echo 'Ending pushing change deployment file to git...'
                 }
             }
         }
