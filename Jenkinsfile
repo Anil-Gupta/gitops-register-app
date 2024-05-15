@@ -16,7 +16,7 @@ pipeline {
         stage("Checkout from SCM") {
                steps {
                    echo 'Checkout from SCM...'
-                   git branch: 'main', credentialsId: 'github', url: 'https://github.com/Anil-Gupta/gitops-register-app'
+                   git branch: 'main1', credentialsId: 'github', url: 'https://github.com/Anil-Gupta/gitops-register-app'
                    echo 'End from SCM...'
                }
         }
